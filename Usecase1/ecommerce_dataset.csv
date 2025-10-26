@@ -1,0 +1,6 @@
+OrderID,CustomerName,Product,Category,Quantity,Price,OrderDate,ShippingCity,PaymentMethod
+1001,Alice,Laptop,Electronics,1,1200,2025-10-01,New York,Credit Card
+1002,Bob,Smartphone,Electronics,2,800,2025-10-02,Los Angeles,PayPal
+1003,Charlie,Headphones,Electronics,1,150,2025-10-03,Chicago,Credit Card
+1004,David,Camera,Electronics,1,500,2025-10-04,Houston,Debit Card
+1005,Eva,Smartwatch,Electronics,3,200,2025-10-05,Miami,PayPal

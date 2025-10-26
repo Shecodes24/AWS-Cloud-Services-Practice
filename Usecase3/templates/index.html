@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI Dynamic Pricing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #4a5568;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        button:active {
+            transform: translateY(-1px);
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border-radius: 15px;
+            font-size: 1.8em;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
+            animation: slideIn 0.6s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .result.error {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            box-shadow: 0 10px 20px rgba(245, 101, 101, 0.3);
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .result {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Dynamic Pricing Tool</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="base_price">Base Price ($)</label>
+                <input type="number" id="base_price" name="base_price" placeholder="e.g., 50.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="demand">Demand Level</label>
+                <input type="number" id="demand" name="demand" placeholder="e.g., 4.5" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="competition_price">Competitor Price ($)</label>
+                <input type="number" id="competition_price" name="competition_price" placeholder="e.g., 55.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="time_of_day">Time of Day (0-23)</label>
+                <input type="number" id="time_of_day" name="time_of_day" placeholder="e.g., 12" step="1" min="0" max="23" required>
+            </div>
+            <div class="form-group">
+                <label for="day_of_week">Day of Week (0-6)</label>
+                <input type="number" id="day_of_week" name="day_of_week" placeholder="e.g., 1" step="1" min="0" max="6" required>
+            </div>
+            <button type="submit">Predict Optimal Price</button>
+        </form>
+
+        {% if suggested_price is not none %}
+            <div class="result {% if suggested_price.startswith('Error:') %}error{% endif %}">
+                {% if suggested_price.startswith('Error:') %}
+                    {{ suggested_price }}
+                {% else %}
+                    Suggested Price: ${{ suggested_price }}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
